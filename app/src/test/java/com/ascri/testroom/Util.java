@@ -11,7 +11,8 @@ public class Util {
             openFileOutput.write("This is a test1.".getBytes());
             openFileOutput.write("This is a test2.".getBytes());
         } catch (Exception e) {
-            // not handled
+            // not handledавпавп
+            //test
         }
     }
 }
