@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 
 public class Util {
     private static final int d =756;
+    private static final int d2 =756;
     public static void writeConfiguration(Context ctx) {
         try (FileOutputStream openFileOutput =
                      ctx.openFileOutput("config.txt", Context.MODE_PRIVATE)) {
