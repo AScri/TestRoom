@@ -3,6 +3,7 @@ package com.ascri.testroom
 import android.Manifest
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doLabs(){
-        val res = listOf(Labs().doAllLabs())
+        val res = Labs().doAllLabs()
+        MediaScannerConnection.scanFile(this, res.map { it?.path }.toTypedArray(), null, null)
         Log.d(LABS_TAG, "doLabs: $res")
     }
 
