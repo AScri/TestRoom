@@ -7,6 +7,7 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 
@@ -48,7 +49,17 @@ class Labs {
             lab12(),
             lab13(),
             lab14(),
-            lab15()
+            lab15(),
+            lab16(),
+            lab17(),
+            lab18(),
+            lab19(),
+            lab20(),
+            lab21(),
+            lab22(),
+            lab23(),
+            lab24(),
+            lab25()
         )
     }
 
@@ -310,7 +321,7 @@ class Labs {
             for (i in 1..size) {
                 val number = scanner.nextInt()
                 tempNumber?.let {
-                    if(it!=number){
+                    if (it != number) {
                         uniqueCount++
                     }
                 }
@@ -321,5 +332,196 @@ class Labs {
         return writeFileOnExternalStorage(15, stringBuilder.toString())
     }
 
+    fun lab16(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input16.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val size = scanner.nextInt()
+            val list = mutableListOf<Int>()
+            for (i in 1..size) {
+                val number = scanner.nextInt()
+                list.add(number)
+            }
+            val sortedList = list.sortedWith(kotlin.Comparator { o1, o2 ->
+                if (abs(o1) < abs(o2) || (abs(o1) == abs(o2) && o1 < o2)) -1 else 1
+            })
+            stringBuilder.appendln(sortedList.joinToString(" "))
+        }
+        return writeFileOnExternalStorage(16, stringBuilder.toString())
+    }
 
+    fun lab17(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input17.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val size = scanner.nextInt()
+            val list = mutableListOf<Int>()
+            for (i in 1..size) {
+                val number = scanner.nextInt()
+                list.add(number)
+            }
+            val evenList = list.filter { it % 2 == 0 }
+            list.removeAll(evenList)
+            stringBuilder.appendln("${evenList.joinToString(" ")} ${list.joinToString(" ")}")
+        }
+        return writeFileOnExternalStorage(17, stringBuilder.toString())
+    }
+
+    fun lab18(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input18.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val size = scanner.nextInt()
+            val list = Array(size) { 0 }
+            for (i in 0 until size) {
+                val number = scanner.nextInt()
+                list[size - 1 - i] = number
+            }
+            stringBuilder.appendln(list.joinToString(" "))
+        }
+        return writeFileOnExternalStorage(18, stringBuilder.toString())
+    }
+
+    fun lab19(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input19.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextLine()) {
+            var str = scanner.nextLine()
+            str = str.map { if (it == 'z') 'w' else if (it == 'w') 'z' else it }.joinToString(" ")
+            stringBuilder.appendln(str)
+        }
+        return writeFileOnExternalStorage(19, stringBuilder.toString())
+    }
+
+    fun lab20(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input20.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextLine()) {
+            val str = scanner.nextLine()
+            stringBuilder.appendln(str.count { it == ' ' })
+        }
+        return writeFileOnExternalStorage(20, stringBuilder.toString())
+    }
+
+    fun lab21(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input21.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val xSize = scanner.nextInt()
+            val ySize = scanner.nextInt()
+            val mass = Array(xSize) { Array(ySize) { 0 } }
+            for (i in 0 until xSize) {
+                for (j in 0 until ySize) {
+                    mass[i][j] = scanner.nextInt()
+                }
+            }
+            val replasePair = Pair(scanner.nextInt(), scanner.nextInt())
+            val temp = mass[replasePair.first - 1]
+            mass[replasePair.first - 1] = mass[replasePair.second - 1]
+            mass[replasePair.second - 1] = temp
+            for (k in mass.indices) {
+                stringBuilder.appendln(mass[k].joinToString(" "))
+            }
+        }
+        return writeFileOnExternalStorage(21, stringBuilder.toString())
+    }
+
+    fun lab22(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input22.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val studCount = scanner.nextInt()
+            val scores = Array(3) { 0 }
+            for (i in 0 until studCount) {
+                scanner.next()
+                for (j in 0 until 3) {
+                    scores[j] += scanner.nextInt()
+                }
+            }
+            val middles = Array(3) { 0f }
+            for (k in scores.indices) {
+                scores[k] /= studCount
+            }
+            stringBuilder.appendln(scores.joinToString(" "))
+        }
+        return writeFileOnExternalStorage(22, stringBuilder.toString())
+    }
+
+    fun lab23(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input23.txt"))
+        val stringBuilder = StringBuilder()
+        while (scanner.hasNextInt()) {
+            val cordsCount = scanner.nextInt()
+            val sideSize = scanner.nextDouble()
+            for (i in 0 until cordsCount) {
+                var fits = true
+                val coords = Array(3) { 0.0 }
+                for (j in 0 until 3) {
+                    val coord = scanner.next().toDouble()
+                    coords[j] = coord
+                    if (coord > sideSize) fits = false
+                }
+                if (fits) stringBuilder.appendln(coords.joinToString(" "))
+            }
+        }
+        return writeFileOnExternalStorage(23, stringBuilder.toString())
+    }
+
+    fun lab24(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input24.txt"))
+        val stringBuilder = StringBuilder()
+        val numbers = mutableListOf<Int>()
+        while (scanner.hasNextInt()) {
+            val massSize = scanner.nextInt()
+            for (i in 0 until massSize) {
+                numbers.add(scanner.nextInt())
+            }
+        }
+        val numbersMassive = numbers.toTypedArray()
+        for (pass in 0 until (numbersMassive.size - 1)) {
+            for (currentPosition in 0 until (numbersMassive.size - 1)) {
+                if (numbersMassive[currentPosition] > numbersMassive[currentPosition + 1]) {
+                    val tmp = numbersMassive[currentPosition]
+                    numbersMassive[currentPosition] = numbersMassive[currentPosition + 1]
+                    numbersMassive[currentPosition + 1] = tmp
+                }
+            }
+        }
+        stringBuilder.appendln(numbersMassive.joinToString(" "))
+        return writeFileOnExternalStorage(24, stringBuilder.toString())
+    }
+
+    fun lab25(): File? {
+        val scanner = Scanner(File(externalFile.path + "/" + "input25.txt"))
+        val stringBuilder = StringBuilder()
+        val stack = mutableListOf<Int>()
+        loop@ while (scanner.hasNextLine()) {
+            val command = scanner.nextLine()
+            when {
+                command.contains("push") -> {
+                    stack.add(command.filter { it.isDigit() }.toInt())
+                    stringBuilder.appendln("ok")
+                }
+                command.contains("pop") -> {
+                    stringBuilder.appendln(stack.last())
+                    stack.removeAt(stack.lastIndex)
+                }
+                command.contains("back") -> {
+                    stringBuilder.appendln(stack.last())
+                }
+                command.contains("size") -> {
+                    stringBuilder.appendln(stack.size)
+                }
+                command.contains("clear") -> {
+                    stack.clear()
+                    stringBuilder.appendln("ok")
+                }
+                command.contains("exit") -> {
+                    stringBuilder.appendln("bye")
+                    break@loop
+                }
+            }
+        }
+        return writeFileOnExternalStorage(25, stringBuilder.toString())
+    }
 }
